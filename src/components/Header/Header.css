@@ -1,0 +1,39 @@
+header {
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+header img {
+  width: 70px;
+  padding: 12px 8px 8px 12px;
+  box-sizing: border-box;
+}
+nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+nav div {
+  margin: 0 15px;
+  justify-content: space-around;
+  display: flex;
+  flex-wrap: wrap;
+}
+nav a {
+  margin: 0 5px;
+}
+.fa-shopping-cart {
+  margin-left: 30px;
+  font-size: 28px;
+}
+.legal {
+  color: white;
+}
+.product {
+  color: #2196f3;
+}
+.product_selected {
+  color: white;
+}
