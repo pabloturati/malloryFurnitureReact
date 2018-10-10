@@ -15,7 +15,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.sectionData = projectData.productLinks;
-    this.homeSectionName = "Featured";
+    this.sectionName = "Featured";
   }
 
   render() {
@@ -26,10 +26,22 @@ class App extends Component {
             <Route
               exact
               path="/"
-              component={() => (
+              component={props => (
                 <Store
                   sectionData={this.sectionData}
-                  name={this.homeSectionName}
+                  name={this.sectionName}
+                  {...props}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/category/:categoryType"
+              component={props => (
+                <Store
+                  sectionData={this.sectionData}
+                  name={this.sectionName}
+                  {...props}
                 />
               )}
             />

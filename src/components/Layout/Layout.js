@@ -12,7 +12,7 @@ export default class Layout extends Component {
             <div className="col-12">{this.props.children}</div>
           </div>
         </main>
-        <Footer />
+        <Footer projectData={this.props.projectData} />
       </div>
     );
   }

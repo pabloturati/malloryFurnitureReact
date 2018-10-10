@@ -7,18 +7,31 @@ export default class Nav extends Component {
     this.linkList = this.linkList.bind(this);
     this.createRoute = this.linkList.bind(this);
     this.state = {
-      linkItems: this.props.projectData
+      linkItems: []
     };
+  }
+  componentWillMount() {
+    this.adjustList();
+  }
+  adjustList() {
+    const { items, domType } = this.props;
+    const cutFrom = domType === "browse" ? 2 : 1;
+
+    //Removes items from the navigation
+    const linkItems =
+      items[0].type === "product" ? items.slice(cutFrom, items.length) : items;
+    this.setState({ linkItems });
   }
 
   linkList(navItems) {
+    const { domType } = this.props;
     return navItems.map((navItem, i) => {
       const { name, type, route } = navItem;
-      const activeClassName = `${type}_selected`;
+      const activeClassName = `${domType}_${type}_selected`;
       return (
         <NavLink
           activeClassName={activeClassName}
-          className={type}
+          className={`${domType}_${type}`}
           key={i}
           to={route}
         >
@@ -27,15 +40,13 @@ export default class Nav extends Component {
       );
     });
   }
-
   render() {
-    const { legalLinks, productLinks } = this.state.linkItems;
-    const navProductLinks = productLinks.slice(1, productLinks.length - 1); //Removes "Featured Products from Nav"
+    const { linkItems } = this.state;
+
     return (
-      <nav>
-        <div>{this.linkList(legalLinks)}</div> |
-        <div>{this.linkList(navProductLinks)}</div> |
-      </nav>
+      <React.Fragment>
+        {linkItems && <div>{this.linkList(this.state.linkItems)}</div>}
+      </React.Fragment>
     );
   }
 }

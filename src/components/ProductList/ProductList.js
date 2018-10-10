@@ -6,34 +6,68 @@ import "./ProductList.css";
 export default class ProductList extends Component {
   constructor(props) {
     super(props);
-    this.generateProductList = this.generateProductList.bind(this);
-    this.generateMiniature = this.generateMiniature.bind(this);
+    this.populateProductList = this.populateProductList.bind(this);
+
+    this.filterResults = this.filterResults.bind(this);
     this.url = "";
     this.state = {
       loading: true,
-      products: null
+      allProducts: null,
+      filteredProducts: null
     };
   }
 
   componentDidMount() {
-    this.url = productListURL;
+    console.log("did mount");
     this.fetchProducts();
   }
-
+  componentDidUpdate() {
+    console.log("updated");
+  }
+  componentWillMount() {
+    console.log("will mount");
+    this.url = productListURL;
+  }
+  componentWillReceiveProps() {
+    console.log("new props");
+  }
   fetchProducts() {
     fetch(this.url)
       .then(response => response.json())
-      .then(products => this.setState({ products, loading: false }))
+      .then(allProducts => {
+        const filteredProducts = this.filterResults(allProducts);
+        this.setState({ allProducts, filteredProducts, loading: false });
+      })
       .catch(err => console.log(err));
   }
 
-  generateProductList() {
-    return this.state.products.map((product, key) =>
-      this.generateMiniature(product, key)
+  filterResults(products) {
+    const { selector, defaultSelector, onSaleFilter } = this.props;
+    let filtered = [];
+
+    if (selector === "all" && onSaleFilter)
+      filtered = products.filter(
+        product => product.category === selector && product.onSale
+      );
+    else if (selector === "all") filtered = products;
+    else if (selector === defaultSelector)
+      filtered = products.filter(product => product.featured);
+    else filtered = products.filter(product => product.category === selector);
+
+    this.reportProductCount(filtered.length);
+    return filtered;
+  }
+  reportProductCount(count) {
+    this.props.amountOfProducts(count);
+  }
+
+  populateProductList() {
+    return this.state.filteredProducts.map((product, key) =>
+      this.createMiniature(product, key)
     );
   }
 
-  generateMiniature(product, key) {
+  createMiniature(product, key) {
     const { imageLink, price, _id, item } = product;
     return (
       <Link key={key} to={`/product/${_id}`}>
@@ -49,11 +83,12 @@ export default class ProductList extends Component {
   }
 
   render() {
-    const { loading, products } = this.state;
+    const { loading, filteredProducts } = this.state;
+    console.log(this.props.onSaleFilter);
     return (
       <div className="product_list">
         {loading && <div>loading</div>}
-        {products && !loading && this.generateProductList()}
+        {filteredProducts && !loading && this.populateProductList()}
       </div>
     );
   }

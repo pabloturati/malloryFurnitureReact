@@ -1,6 +1,8 @@
 export const productListURL =
   "https://mallory-furniture-admin.now.sh/api/v1/products";
 
+export const defaultLandingSelector = "featured";
+
 export const projectData = {
   legalLinks: [
     {
@@ -10,13 +12,14 @@ export const projectData = {
     },
     {
       name: "Terms + Conditions",
-      route: "/about",
+      route: "/terms",
       type: "legal"
     }
   ],
   productLinks: [
     {
       name: "Featured",
+      selector: "featured",
       titles: [
         "Featured Products",
         "Check out some of our favorite listings",
@@ -37,6 +40,8 @@ export const projectData = {
     },
     {
       name: "All",
+      selector: "all",
+      titles: ["All Products", "All available listings", "", "", ""],
       route: "/category/all",
       type: "product",
       heroImage: "",
@@ -49,6 +54,8 @@ export const projectData = {
     },
     {
       name: "Seating",
+      selector: "seating",
+      titles: ["Seating", "All seating Products", "", "", ""],
       route: "/category/seating",
       type: "product",
       heroImage:
@@ -62,6 +69,8 @@ export const projectData = {
     },
     {
       name: "Tables",
+      selector: "tables",
+      titles: ["Tables", "All table products", "", "", ""],
       route: "/category/tables",
       type: "product",
       heroImage:
@@ -75,6 +84,8 @@ export const projectData = {
     },
     {
       name: "Desks",
+      selector: "desks",
+      titles: ["Desks", "All desk products", "", "", ""],
       route: "/category/desks",
       type: "product",
       heroImage:
@@ -88,6 +99,8 @@ export const projectData = {
     },
     {
       name: "Storage",
+      selector: "storage",
+      titles: ["Storage", "For all storage needs", "", "", ""],
       route: "/category/storage",
       type: "product",
       heroImage:
@@ -101,6 +114,8 @@ export const projectData = {
     },
     {
       name: "Bedroom",
+      selector: "bedroom",
+      titles: ["Bedroom", "All bedroom products", "", "", ""],
       route: "/category/bedroom",
       type: "product",
       heroImage:
@@ -114,7 +129,9 @@ export const projectData = {
     },
     {
       name: "Misc",
-      route: "/category/misc",
+      selector: "miscellaneous",
+      titles: ["Miscelaneous", "All your other needs", "", "", ""],
+      route: "/category/miscellaneous",
       type: "product",
       heroImage:
         "https://res.cloudinary.com/dhfpvsu5c/image/upload/v1538698247/malloryFurniture/category-miscellaneous.png",

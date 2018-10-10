@@ -1,0 +1,44 @@
+.browse_section {
+  margin-top: 20px;
+}
+
+.browse_panel {
+  max-width: 600px;
+  margin: auto;
+  margin-bottom: 25px;
+}
+
+.browse_panel > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.browse_section > a {
+  display: block;
+  margin: auto;
+  text-align: center;
+  border: 1px solid #f44336;
+  width: 120px;
+  padding: 6px;
+  color: #f44336;
+  box-sizing: border-box;
+}
+.browse_section > a:hover {
+  background-color: #f44336;
+  color: white;
+}
+
+a.browse_product {
+  margin: 5px 15px;
+  display: block;
+  text-align: center;
+  border: 1px solid #2196f3;
+  width: 120px;
+  padding: 6px;
+  color: #2196f3;
+  box-sizing: border-box;
+}
+a.browse_product:hover {
+  background-color: #2196f3;
+  color: white;
+}
