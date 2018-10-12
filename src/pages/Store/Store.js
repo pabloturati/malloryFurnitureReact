@@ -10,9 +10,8 @@ import FilterReport from "../../components/FilterReport/FilterReport";
 export default class Home extends Component {
   constructor(props) {
     super(props);
-    this.defaultSelector = defaultLandingSelector;
-    this.setSectionSelector = this.setSectionSelector.bind(this);
-    this.setSection = this.setSection.bind(this);
+    this.defaultSelector = "";
+
     this.counterHandler = this.counterHandler.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.state = {
@@ -23,8 +22,8 @@ export default class Home extends Component {
     };
   }
   componentWillMount() {
+    this.defaultSelector = defaultLandingSelector;
     const sectionSelector = this.setSectionSelector();
-    console.log(sectionSelector);
     const section = this.setSection(sectionSelector);
     this.setState({
       sectionSelector,
@@ -36,18 +35,21 @@ export default class Home extends Component {
     const { categoryType } = this.props.match.params;
     return categoryType ? categoryType : this.defaultSelector;
   }
-  handleFilterChange(value) {
-    this.setState({ onSaleFilter: value });
-  }
 
   setSection(sectionSelector) {
     return this.props.sectionData.filter(
       section => section.selector === sectionSelector
     )[0];
   }
+
+  //Change handlers
+  handleFilterChange(value) {
+    this.setState({ onSaleFilter: value });
+  }
   counterHandler(productAmount) {
     this.setState({ productAmount });
   }
+
   render() {
     // Component properties
     const { heroImage, design, titles, selector } = this.state.section;

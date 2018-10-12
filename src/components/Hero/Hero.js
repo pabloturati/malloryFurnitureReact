@@ -18,20 +18,21 @@ export default class Hero extends Component {
   }
   render() {
     const { heroImage } = this.props;
+
+    const heroImgStyle = {
+      backgroundImage: `url(${heroImage})`
+    };
+
     return (
-      <div className="hero">
-        {this.titles && (
-          <div className="hero_titles">
-            {this.titles.map((title, index) => {
-              return index === 0 ? (
-                <h1 key={index}>{title}</h1>
-              ) : (
-                <h2 key={index}>{title}</h2>
-              );
-            })}
-          </div>
-        )}
-        <img src={heroImage} alt={this.initialTitles[0]} />
+      <div className="hero" style={heroImgStyle}>
+        {this.titles &&
+          this.titles.map((title, index) => {
+            return index === 0 ? (
+              <h1 key={index}>{title}</h1>
+            ) : (
+              <h2 key={index}>{title}</h2>
+            );
+          })}
       </div>
     );
   }

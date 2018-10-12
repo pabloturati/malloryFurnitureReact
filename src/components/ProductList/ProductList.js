@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { productListURL } from "../../project-files/projectData/projectData";
+import { productURL } from "../../project-files/projectData/projectData";
 import "./ProductList.css";
 
 export default class ProductList extends Component {
@@ -15,18 +15,16 @@ export default class ProductList extends Component {
       allProducts: null,
       filteredProducts: null
     };
+    console.log("constructor");
   }
 
-  componentDidMount() {
-    console.log("did mount");
-    this.fetchProducts();
-  }
-  componentDidUpdate() {
-    console.log("updated");
-  }
   componentWillMount() {
     console.log("will mount");
-    this.url = productListURL;
+    this.url = productURL;
+    this.fetchProducts();
+  }
+  componentDidMount() {
+    console.log("did mount");
   }
   componentWillReceiveProps() {
     console.log("new props");
@@ -81,7 +79,6 @@ export default class ProductList extends Component {
       </Link>
     );
   }
-
   render() {
     const { loading, filteredProducts } = this.state;
     console.log(this.props.onSaleFilter);
