@@ -1,85 +1,124 @@
 import React, { Component } from "react";
+
+//Components
 import Hero from "../../components/Hero";
 import CategoryHeader from "../../components/CategoryHeader/CategoryHeader";
 import ProductList from "../../components/ProductList/ProductList";
-import { defaultLandingSelector } from "../../project-files/projectData/projectData";
-import { projectData } from "../../project-files/projectData/projectData";
 import BrowseSection from "../../components/BrowseSection/BrowseSection";
 import FilterReport from "../../components/FilterReport/FilterReport";
+import Loader from "../../components/Loader/Loader";
+
+// ProjectConfig
+import { defaultLandingSelector } from "../../project-files/projectData/projectData";
+import { baseURL } from "../../project-files/projectData/projectData";
+import { projectData } from "../../project-files/projectData/projectData";
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
-    this.defaultSelector = "";
-
-    this.counterHandler = this.counterHandler.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.state = {
-      sectionSelector: "",
-      section: {},
-      productAmount: 0,
-      onSaleFilter: null
+      //BrowserSection
+      productCount: 0,
+      onSaleFilter: false,
+
+      //Product page config
+      loading: true,
+      produts: [],
+
+      sectionSelector: null
     };
   }
   componentWillMount() {
-    this.defaultSelector = defaultLandingSelector;
-    const sectionSelector = this.setSectionSelector();
-    const section = this.setSection(sectionSelector);
+    const sectionSelector = this.setSectionSelector(); //From params
+    const section = this.setSection(sectionSelector); //From data
+
     this.setState({
       sectionSelector,
-      section,
-      onSaleFilter: false
+      section
     });
-  }
-  setSectionSelector() {
-    const { categoryType } = this.props.match.params;
-    return categoryType ? categoryType : this.defaultSelector;
+    const queryURL = this.createBasicQuery(sectionSelector);
+    this.fetchProducts(queryURL);
   }
 
-  setSection(sectionSelector) {
-    return this.props.sectionData.filter(
-      section => section.selector === sectionSelector
-    )[0];
+  createBasicQuery(selector) {
+    if (selector === "featured" || selector === "all") {
+      return baseURL + `/products`;
+    }
+    return baseURL + `/products?category=${selector}`;
   }
 
   //Change handlers
   handleFilterChange(value) {
     this.setState({ onSaleFilter: value });
+    const queryURL = this.createBasicQuery(this.state.sectionSelector);
+    this.fetchProducts(queryURL);
   }
-  counterHandler(productAmount) {
-    this.setState({ productAmount });
+
+  featuredFilter(products) {
+    return products.filter(product => product.featured);
+  }
+  onSaleFilter(products) {
+    return products.filter(product => product.onSale);
+  }
+  productCount(products) {
+    let productCount = 0;
+    products.forEach(product => productCount++);
+    return productCount;
+  }
+
+  fetchProducts(queryURL) {
+    fetch(queryURL)
+      .then(response => response.json())
+      .then(products => {
+        if (this.sectionSelector === "featured")
+          products = this.featuredFilter(products);
+        if (this.state.onSaleFilter) products = this.onSaleFilter(products);
+
+        const productCount = this.productCount(products);
+        this.setState({
+          productCount,
+          products,
+          loading: false
+        });
+      })
+      .catch(err => console.log(err));
+  }
+
+  setSectionSelector() {
+    const { categoryType } = this.props.match.params;
+    return categoryType ? categoryType : defaultLandingSelector;
+  }
+
+  setSection(sectionSelector) {
+    return projectData.productLinks.filter(
+      section => section.selector === sectionSelector
+    )[0];
   }
 
   render() {
     // Component properties
-    const { heroImage, design, titles, selector } = this.state.section;
-    console.log(selector);
-    const { productAmount, onSaleFilter } = this.state;
+    const { heroImage, design, titles } = this.state.section;
+    const { loading, productCount, products } = this.state;
 
     // Design control booleans
     const { hero, browseSection, filterReport } = design;
-    // console.log(onSaleFilter);
 
     return (
       <div>
         {hero && <Hero heroImage={heroImage} titles={titles} />}
         <CategoryHeader titles={titles} />
 
-        {filterReport && (
-          <FilterReport
-            productAmount={productAmount}
-            onFilterChange={this.handleFilterChange}
-          />
-        )}
+        {!loading &&
+          filterReport && (
+            <FilterReport
+              productCount={productCount}
+              onFilterChange={this.handleFilterChange}
+            />
+          )}
 
-        {selector && (
-          <ProductList
-            selector={selector}
-            defaultSelector={this.defaultSelector}
-            amountOfProducts={this.counterHandler}
-            onSaleFilter={onSaleFilter}
-          />
-        )}
+        {loading && <Loader />}
+        {!loading && products && <ProductList products={products} />}
         {browseSection && <BrowseSection items={projectData.productLinks} />}
       </div>
     );

@@ -4,10 +4,10 @@ import "./FilterReport.css";
 export default class FilterReport extends Component {
   constructor(props) {
     super(props);
-    this.changeSaleFilter = this.changeSaleFilter.bind(this);
+    this.onFilterChange = this.onFilterChange.bind(this);
   }
 
-  changeSaleFilter(value) {
+  onFilterChange(value) {
     this.props.onFilterChange(value);
   }
 
@@ -18,16 +18,16 @@ export default class FilterReport extends Component {
           <input
             type="button"
             value="All Items"
-            onClick={() => this.changeSaleFilter(false)}
+            onClick={() => this.onFilterChange(false)}
           />
           <input
             type="button"
             value="On sale"
-            onClick={() => this.changeSaleFilter(true)}
+            onClick={() => this.onFilterChange(true)}
           />
         </div>
         <div>
-          <span>{this.props.productAmount}</span>
+          <span>{this.props.productCount}</span>
           <span>Items Showing</span>
         </div>
       </div>

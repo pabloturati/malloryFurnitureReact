@@ -24,9 +24,15 @@ export default class Footer extends Component {
           <div className="social_container">
             <h3>Social</h3>
             <div>
-              <i className="fab fa-instagram" />
-              <i className="fab fa-twitter" />
-              <i className="fab fa-pinterest" />
+              <a href="https://www.instagram.com/">
+                <i className="fab fa-instagram" />
+              </a>
+              <a href="https://twitter.com/MallorysManager">
+                <i className="fab fa-twitter" />
+              </a>
+              <a href="https://www.pinterest.com.mx/search/pins/?q=mallory%20furniture&rs=typed&term_meta[]=mallory%7Ctyped&term_meta[]=furniture%7Ctyped">
+                <i className="fab fa-pinterest" />
+              </a>
             </div>
           </div>
         </div>

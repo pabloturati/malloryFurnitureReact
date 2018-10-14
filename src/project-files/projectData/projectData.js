@@ -1,5 +1,4 @@
-export const productURL =
-  "https://mallory-furniture-admin.now.sh/api/v1/products";
+export const baseURL = "https://mallory-furniture-admin.now.sh/api/v1/";
 
 export const defaultLandingSelector = "featured";
 

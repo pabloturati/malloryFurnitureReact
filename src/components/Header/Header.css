@@ -1,9 +1,10 @@
 header {
-  background-color: black;
+  background-color: #222222;
   color: white;
   display: flex;
   align-items: center;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 header img {
   width: 70px;
@@ -24,9 +25,20 @@ nav div {
 nav a {
   margin: 0 5px;
 }
+.cartIcon {
+  margin-left: 15px;
+  padding-right: 5px;
+  height: 55px;
+  width: 50px;
+  background-color: #ffc107;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
 .fa-shopping-cart {
-  margin-left: 30px;
   font-size: 28px;
+  color: #999999;
 }
 
 /* Nav Configuration */
